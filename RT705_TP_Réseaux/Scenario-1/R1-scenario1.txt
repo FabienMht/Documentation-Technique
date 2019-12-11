@@ -1,0 +1,135 @@
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname R1
+!
+!
+!
+enable secret 5 $1$mERr$9cTjUIEqNGurQiFU.ZeCi1
+!
+!
+ip dhcp excluded-address 192.168.21.1 192.168.21.20
+ip dhcp excluded-address 192.168.23.1 192.168.23.20
+!
+ip dhcp pool ACCT
+ network 192.168.21.0 255.255.255.0
+ default-router 192.168.21.1
+ dns-server 10.10.10.10
+ domain-name ccna-sa.com
+ip dhcp pool ENGNR
+ network 192.168.23.0 255.255.255.0
+ default-router 192.168.23.1
+ dns-server 10.10.10.10
+ domain-name ccna-sa.com
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+!
+license udi pid CISCO1941/K9 sn FTX152410W3-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain-lookup
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface GigabitEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1.21
+ description Accounting LAN
+ encapsulation dot1Q 21
+ ip address 192.168.21.1 255.255.255.0
+!
+interface GigabitEthernet0/1.23
+ description Engineering LAN
+ encapsulation dot1Q 23
+ ip address 192.168.23.1 255.255.255.0
+!
+interface GigabitEthernet0/1.99
+ description Management LAN
+ encapsulation dot1Q 99
+ ip address 192.168.99.1 255.255.255.0
+!
+interface Serial0/1/0
+ ip address 172.16.1.1 255.255.255.252
+ ipv6 address 2001:DB8:ACAD:1::1/64
+!
+interface Serial0/1/1
+ no ip address
+ clock rate 2000000
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router rip
+ version 2
+ passive-interface GigabitEthernet0/0
+ network 172.16.0.0
+ network 192.168.21.0
+ network 192.168.23.0
+ network 192.168.99.0
+ no auto-summary
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 172.16.1.2 
+!
+ip flow-export version 9
+!
+ipv6 route ::/0 2001:DB8:ACAD:1::2
+!
+!
+banner motd Unauthorized Access is Prohibited!
+!
+!
+!
+!
+!
+line con 0
+ password 7 0822455D0A16
+!
+line aux 0
+!
+line vty 0 4
+ password 7 0822455D0A16
+ login
+ transport input telnet
+line vty 5 15
+ password 7 0822455D0A16
+ login
+ transport input telnet
+!
+!
+!
+end
+

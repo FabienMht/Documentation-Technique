@@ -1,0 +1,7 @@
+Scénario 1 :
+
+1a) show ip access-lists
+1b) clear access-list counters *
+1c) show ip interface | include line protocol|access list
+1d) show ip nat translations
+1e) clear ip nat translations *

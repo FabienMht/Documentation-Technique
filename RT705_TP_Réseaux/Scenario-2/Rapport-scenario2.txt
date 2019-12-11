@@ -1,0 +1,31 @@
+Scénario 2 :
+
+2a) show ip ospf neighbor
+2b) show ip ospf interface brief
+2c) show ip protocols
+2d) show ip route ospf
+2e) show running-config | section ospf
+
+2f) Test HSRP :
+1) Au départ :
+   - Active : R1
+   - Standby : R3
+2) Désactivation de l'interface g0/1 lan de R1 avec la commande sh :
+   - Active : R3
+   - Standby : -
+   - Interruption lors du basculement du routeur actif :
+
+C:\>ping -n 100 172.27.0.2
+Pinging 172.27.0.2 with 32 bytes of data:
+Reply from 172.27.0.2: bytes=32 time<1ms TTL=255
+Reply from 172.27.0.2: bytes=32 time=1ms TTL=255
+Request timed out.
+Request timed out.
+Request timed out.
+Reply from 172.27.0.2: bytes=32 time<1ms TTL=255
+Reply from 172.27.0.2: bytes=32 time<1ms TTL=255
+
+3) Réactivation de l'interface g0/1 lan de R1 avec la commande no sh
+   pour tester la fonctionnalité de préemption :
+   - Active : R1
+   - Standby : R3

@@ -1,0 +1,113 @@
+!
+version 15.1
+no service timestamps log datetime msec
+no service timestamps debug datetime msec
+service password-encryption
+!
+hostname R3
+!
+!
+!
+enable secret 5 $1$mERr$9cTjUIEqNGurQiFU.ZeCi1
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+!
+license udi pid CISCO1941/K9 sn FTX1524X6O7-
+!
+!
+!
+!
+!
+!
+!
+!
+!
+no ip domain-lookup
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface Loopback4
+ ip address 172.27.4.1 255.255.255.0
+!
+interface GigabitEthernet0/0
+ no ip address
+ duplex auto
+ speed auto
+ shutdown
+!
+interface GigabitEthernet0/1
+ description Lan vers S3
+ ip address 172.27.0.3 255.255.255.0
+ duplex auto
+ speed auto
+ standby 1 ip 172.27.0.2
+!
+interface Serial0/0/0
+ no ip address
+ clock rate 2000000
+ shutdown
+!
+interface Serial0/0/1
+ description Liaison wan vers R2
+ bandwidth 128
+ ip address 172.27.123.6 255.255.255.252
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router ospf 1
+ router-id 3.3.3.3
+ log-adjacency-changes
+ passive-interface GigabitEthernet0/1
+ passive-interface Loopback4
+ auto-cost reference-bandwidth 1000
+ network 172.27.0.3 0.0.0.0 area 0
+ network 172.27.123.6 0.0.0.0 area 0
+ network 172.27.4.1 0.0.0.0 area 3
+!
+ip classless
+!
+ip flow-export version 9
+!
+!
+!
+banner motd Unauthorized Access is Prohibited!
+!
+!
+!
+!
+!
+line con 0
+ password 7 0822455D0A16
+!
+line aux 0
+!
+line vty 0 4
+ password 7 0822455D0A16
+ login
+ transport input telnet
+line vty 5 15
+ password 7 0822455D0A16
+ login
+ transport input telnet
+!
+!
+!
+end
+
